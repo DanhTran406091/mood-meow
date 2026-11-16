@@ -1,3 +1,5 @@
+import {mergeGestureIds} from '../services/gestureDecision'
+import {GestureHold} from '../services/gestureRules'
 import memeSchema from '../config/memeFeatures.json'
 import mouthSchema from '../config/tongueFeatures.json'
 import {useCallback,useEffect,useRef,useState} from 'react'
@@ -19,12 +21,12 @@ export function useGestureRecognition(){
   const [starting,setStarting]=useState(false)
   const [tracking,setTracking]=useState<Tracking|null>(null)
   const loadTemplates=useCallback(async()=>{
-    try{const res=await fetch('/api/gestures');if(!res.ok)throw new Error();const rows:GestureTemplate[]=await res.json();if(!Array.isArray(rows)||!rows.length)throw new Error();setCatalogError('');setTemplates(rows)}
+    try{const res=await fetch('/api/gestures',{cache:'no-store'});if(!res.ok)throw new Error();const rows:GestureTemplate[]=await res.json();if(!Array.isArray(rows)||!rows.length)throw new Error();setCatalogError('');setTemplates(rows)}
     catch{setCatalogError('Chưa tải được danh mục động tác. Khởi động lại backend rồi bấm Tải lại mẫu.')}
   },[])
   useEffect(()=>{
     const controller=new AbortController()
-    fetch('/api/gestures',{signal:controller.signal})
+    fetch('/api/gestures',{signal:controller.signal,cache:'no-store'})
       .then(res=>{if(!res.ok)throw new Error();return res.json() as Promise<GestureTemplate[]>})
       .then(rows=>{if(!Array.isArray(rows)||!rows.length)throw new Error();if(!controller.signal.aborted)setTemplates(rows)})
       .catch(()=>{if(!controller.signal.aborted)setCatalogError('Chưa tải được danh mục động tác. Khởi động lại backend rồi bấm Tải lại mẫu.')})
@@ -39,6 +41,29 @@ export function useGestureRecognition(){
     if(videoRef.current)videoRef.current.srcObject=null
     setActive(false);setStarting(false);setTracking(null)
   },[])
+  // Training changes the backend catalog without reloading this page.
+  // Replace the old rule catalog and stop its worker so closures cannot keep
+  // selecting the previous set of memes.
+  useEffect(()=>{
+    let disposed=false
+    const controller=new AbortController()
+    const refresh=async()=>{
+      if(starting)return
+      try{
+        const response=await fetch('/api/gestures',{cache:'no-store',signal:controller.signal})
+        if(!response.ok)return
+        const rows:GestureTemplate[]=await response.json()
+        if(disposed||!Array.isArray(rows)||!rows.length)return
+        if(JSON.stringify(rows)!==JSON.stringify(templates)){
+          stop();setTemplates(rows);setCatalogError('')
+        }
+      }catch{/* A temporary outage must not replace a valid catalog. */}
+    }
+    const interval=setInterval(()=>void refresh(),5000)
+    const onFocus=()=>void refresh()
+    window.addEventListener('focus',onFocus)
+    return()=>{disposed=true;controller.abort();clearInterval(interval);window.removeEventListener('focus',onFocus)}
+  },[templates,starting,stop])
   const calibrateEyes=useCallback(()=>{
     worker.current?.postMessage({type:'calibrate-eyes'})
     setTracking(t=>t?{...t,calibration:'collecting',stable:false,id:null,progress:0}:t)
@@ -46,12 +71,24 @@ export function useGestureRecognition(){
   const start=useCallback(async()=>{
     stop();setError('');setStarting(true)
     const token=generation.current
-    if(!templates.length){setError('Cần tải được danh sách mẫu từ backend trước.');setStarting(false);return}
+    let runTemplates=templates
+    try{
+      const response=await fetch('/api/gestures',{cache:'no-store',signal:AbortSignal.timeout(3000)})
+      if(!response.ok)throw new Error()
+      const rows:GestureTemplate[]=await response.json()
+      if(!Array.isArray(rows)||!rows.length)throw new Error()
+      if(generation.current!==token)return
+      runTemplates=rows;setTemplates(rows);setCatalogError('')
+    }catch{
+      if(generation.current!==token)return
+      setError('Chưa cập nhật được danh mục mô hình. Kiểm tra backend rồi bắt đầu lại.');setStarting(false);return
+    }
+    if(!runTemplates.length){setError('Cần tải được danh sách mẫu từ backend trước.');setStarting(false);return}
     const w=new Worker(new URL('../services/gesture.worker.ts',import.meta.url),{type:'module'})
     worker.current=w
     let mouthSince:number|null=null,mouthFrames=0
     let mouthRequestFailed=false
-    let trainedSince:number|null=null,trainedId:string|null=null,trainedFrames=0
+    const combinedHold=new GestureHold()
     const current=()=>worker.current===w&&generation.current===token
     const fail=(message:string)=>{if(current()){stop();setError(message)}}
     const capture=async()=>{
@@ -78,26 +115,24 @@ export function useGestureRecognition(){
         }catch{fail('Không mở được camera. Cho phép camera và đóng ứng dụng đang dùng thiết bị.')}
       }
       if(data.type==='result'){
-        // One camera, one winning meme. The trained mouth classifier arbitrates
-        // only mouth-only gestures; hand gestures keep their existing rules.
-        const useTrained=templates.some(t=>t.recognition?.engine==='trained_meme')
+        const trainedLabels=runTemplates.filter(t=>t.recognition?.engine==='trained_meme').map(t=>t.id)
+        const useTrained=trainedLabels.length>0
         if(useTrained){
-          data.id=null;data.ids=[];data.stable=false;data.progress=0
+          const fallbackIds=[...data.ids]
+          let prediction:string|null=null
           if(data.combinedFeatures&&data.calibration!=='collecting'){
             try{
               const response=await fetch('/api/meme-training/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({schema_id:memeSchema.schema_id,frame:{t_ms:0,values:data.combinedFeatures}}),signal:AbortSignal.timeout(3000)})
               if(!response.ok)throw new Error()
               const result=await response.json();if(!current())return
-              if(result.id&&templates.some(t=>t.id===result.id)){
-                if(trainedId!==result.id){trainedId=result.id;trainedSince=data.timestamp;trainedFrames=0}
-                trainedFrames++;data.id=result.id;data.ids=[result.id];data.progress=Math.min(1,(data.timestamp-(trainedSince??data.timestamp))/900);data.stable=trainedFrames>=4&&data.progress>=1
-              }else{trainedId=null;trainedSince=null;trainedFrames=0}
-              setError('')
-            }catch{if(!current())return;trainedId=null;trainedSince=null;trainedFrames=0;setError('Chưa gọi được mô hình động tác đã train. Kiểm tra backend rồi thử lại.')}
-          }else{trainedId=null;trainedSince=null;trainedFrames=0}
+              prediction=result.id??null;setError('')
+            }catch{if(!current())return;setError('Chưa gọi được mô hình mới; các động tác dự phòng vẫn hoạt động.')}
+          }
+          const ids=data.calibration==='collecting'?[]:mergeGestureIds(fallbackIds,prediction,trainedLabels,data)
+          Object.assign(data,{ids},combinedHold.update(ids,data.timestamp))
         }
-        const mouthTemplates=templates.filter(t=>t.recognition?.engine==='mouth_pixels_v2')
-        if(!useTrained&&mouthTemplates.length&&data.signals.face&&data.signals.hands===0&&data.signals.jaw>.18&&data.tongueFeatures){
+        const mouthTemplates=runTemplates.filter(t=>t.recognition?.engine==='mouth_pixels_v2')
+        if(mouthTemplates.length&&data.signals.face&&data.signals.hands===0&&data.signals.jaw>.18&&data.tongueFeatures){
           try{
             const r=await fetch('/api/tongue-pixels/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({values:data.tongueFeatures,schema_id:mouthSchema.schema_id}),signal:AbortSignal.timeout(3000)})
             if(!r.ok)throw new Error()

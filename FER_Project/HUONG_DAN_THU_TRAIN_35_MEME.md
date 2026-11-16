@@ -73,6 +73,6 @@ Mặc định chỉ train các nhãn đã có dữ liệu, bắt buộc none và
 Mỗi lần train ghi một thư mục mới trong model/meme_classifier_runs, có report.json, classifier.joblib, confusion_matrix.png và READY. Không ghi đè bản trước. Phải đọc Accuracy, Macro-F1, bảng nhầm lẫn; không mặc định coi thành công là chính xác. Mô hình nhiều lớp vẫn có thể đoán nhầm mẫu chưa được thu, cần mẫu âm đa dạng.
 
 ## 5. Test
-Sau khi train xong, web dùng bản train hoàn tất mới nhất khi tải lại danh mục. Khởi động lại BE, Ctrl+F5. Danh sách ảnh tự lấy đúng nhãn mô hình đã học; không sửa available từng ảnh. Mô hình chung thay luật cũ trong luồng này; không trộn kết quả hai bộ. Giữ động tác khoảng một giây; none hoặc điểm thấp không gọi ảnh. Không cần thêm file cho mỗi ảnh. Dữ liệu 35 ảnh không tự tạo 35 mô hình.
+Sau khi train xong, web dùng bản train hoàn tất mới nhất khi tải lại danh mục. Khởi động lại BE, Ctrl+F5. Danh sách ảnh tự lấy đúng nhãn mô hình đã học; không sửa available từng ảnh. Nhãn đã train dùng mô hình, động tác cũ chưa thay thế vẫn giữ bộ dự phòng; một bộ quyết định chung chọn kết quả. Dữ liệu tích lũy được giữ để train thêm nhãn mỗi ngày. Giữ động tác khoảng một giây; none hoặc điểm thấp không gọi ảnh. Không cần thêm file cho mỗi ảnh. Dữ liệu 35 ảnh không tự tạo 35 mô hình.
 
 Với kiểm tra nghiêm túc, ghi nhận kết quả trên người/buổi mới, không dùng lại buổi test để liên tục chỉnh rồi báo điểm đó như đánh giá độc lập.

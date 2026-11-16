@@ -141,9 +141,14 @@ def gesture_entries():
     rows = json.loads(source.read_text(encoding='utf-8'))['entries']
     from gesture_ml.meme_runtime import status
     trained=status()
-    if trained['ready']:
-        return [{**row,'recognition':{'engine':'trained_meme','label':row['id']}} for row in rows if row['id'] in trained['labels']]
-    return [row for row in rows if row.get('available', row.get('pilot_candidate', False))]
+    result=[]
+    for row in rows:
+        if row['id'] in trained['labels']:
+            result.append({**row,'recognition':{'engine':'trained_meme','label':row['id']}})
+        elif row.get('available',row.get('pilot_candidate',False)):
+            result.append(row)
+    return result
+
 
 
 def gesture_path(row):
@@ -159,7 +164,7 @@ def gestures():
     for row in gesture_entries():
         gesture_path(row)
         key = row['id']
-        output.append({'id': key, 'description': row['gesture_description'], 'notes': row['notes'], 'recognition': row.get('recognition'),
+        output.append({'id': key, 'description': row['gesture_description'], 'notes': row.get('collection_notes', row['notes']), 'recognition': row.get('recognition'),
                        'meme': {'id': f'gesture-{key}', 'emotion': row['emotion_tag'],
                                 'url': f'/api/gestures/{key}/file',
                                 'downloadUrl': f'/api/gestures/{key}/file?download=true'}})

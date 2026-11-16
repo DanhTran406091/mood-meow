@@ -108,6 +108,12 @@ def main():
     parser.add_argument('--labels',nargs='+',help='Subset of collected labels; include none. Other labels are preserved but excluded from this run.')
     parser.add_argument('--check-only',action='store_true')
     args=parser.parse_args()
+    # A selected new batch must not silently discard earlier trained classes.
+    if args.labels:
+        from gesture_ml.meme_runtime import status
+        previous=set(status()['labels'])-{'none'}
+        args.labels=sorted(set(args.labels)|previous|{'none'})
+        print('Accumulated training labels:', ', '.join(args.labels))
     try:
         if args.check_only:
             stats=summary(args.data);print(json.dumps(stats,indent=2));

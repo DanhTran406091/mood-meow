@@ -213,7 +213,7 @@ Chỉ train khi kiểm tra qua. Kết quả theo buổi không đánh giá khả
 .\.venv\Scripts\python.exe -m gesture_ml.train_meme --split-by subject --labels angry_02 sad_04 disgust_04 none
 ~~~
 
-Mỗi nhãn phải có trong train/validation/test tách theo nhóm. Mặc định lấy nhãn đã có dữ liệu; phải có none và ít nhất một động tác. Thiếu dữ liệu sẽ dừng, không tạo model giả. Khi mở rộng phải train lại từ **tất cả nhãn muốn hỗ trợ**, không chỉ train nhãn mới rồi coi như cộng vào model cũ.
+Mỗi nhãn phải có trong train/validation/test tách theo nhóm. Mặc định lấy nhãn đã có dữ liệu; phải có none và ít nhất một động tác. Thiếu dữ liệu sẽ dừng, không tạo model giả. Mỗi ngày có thể thu thêm 1–2 nhãn, giữ nguyên các JSON cũ. Khi truyền --labels, lệnh tự cộng các nhãn đã train trước đó để train từ dữ liệu tích lũy. Không phải quay lại 35 ảnh trong một ngày. RandomForest tạo bản model mới, không học nối trực tiếp vào trọng số cũ; bản cũ vẫn được giữ.
 
 Kết quả:
 
@@ -234,7 +234,7 @@ FER_Project/model/meme_classifier_runs/<thời_gian>/
 3. Ctrl+F5 trên web, chọn Theo động tác, bật camera.
 4. Backend tự lấy bản **train hoàn tất mới nhất** trong meme_classifier_runs/. Danh mục lấy nhãn model đã học; không tạo file/sửa available cho từng ảnh.
 5. Làm từng động tác, giữ khoảng một giây. Thử cả động tác ngoài mẫu/chuyển tư thế để kiểm tra gọi nhầm.
-6. Mô hình chung thay luồng luật dự phòng; nhãn chưa train chưa tự nhận được. Vẫn một camera, một ô meme.
+6. Nhãn đã train dùng bộ phân loại; những động tác cũ chưa được thay thế vẫn chạy luật/model dự phòng. Các bản train trước giữ nhãn chưa có trong bản mới; nếu nhiều bộ cùng nhận một lúc thì chưa chọn ảnh. Vẫn một camera, một ô meme.
 
 Test nghiêm túc trên người/buổi chưa dùng chỉnh model. Không xem khung liền nhau là mẫu độc lập; không chỉnh liên tục theo tập test rồi báo đó là đánh giá mới.
 
