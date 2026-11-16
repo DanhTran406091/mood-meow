@@ -16,17 +16,31 @@ def partition(records,by,labels=None):
     if len(set(groups))<3:raise ValueError('Need at least 3 people (subject split) or 3 recording sessions (session split).')
     y=np.array([r['label'] for r in records])
     expected=set(labels or SCHEMA['labels'])
-    # Select a split by label coverage only, never by test accuracy.
-    for seed in range(42,242):
-        trval,test=next(GroupShuffleSplit(n_splits=1,test_size=.2,random_state=seed).split(y,groups=groups))
-        tr,val=next(GroupShuffleSplit(n_splits=1,test_size=.25,random_state=seed).split(y[trval],groups=groups[trval]))
-        train,validation=trval[tr],trval[val]
-        if all(set(y[idx])==expected for idx in (train,validation,test)):
-            assert not(set(groups[train])&set(groups[test]))
-            assert not(set(groups[train])&set(groups[validation]))
-            assert not(set(groups[validation])&set(groups[test]))
-            return train,validation,test,groups
-    raise ValueError('Every split needs all selected labels. Collect all labels for each person/session; do not random-split frames.')
+    # Groups can contain different gesture batches collected on different days.
+    # Try multiple *group counts*, based only on coverage, never model accuracy.
+    import math
+    count=len(set(groups))
+    for label in expected:
+        if len(set(groups[y==label]))<3:
+            raise ValueError(f'Label {label} needs clips from at least 3 real groups.')
+    sizes=list(dict.fromkeys([
+        (math.ceil(count*.2),math.ceil(count*.2)),
+        (math.ceil(count*.25),math.ceil(count*.25)),
+        (max(1,count//3),max(1,count//3)),
+    ]))
+    for test_count,val_count in sizes:
+        if test_count+val_count>=count:continue
+        for seed in range(42,442):
+            trval,test=next(GroupShuffleSplit(n_splits=1,test_size=test_count,random_state=seed).split(y,groups=groups))
+            tr,val=next(GroupShuffleSplit(n_splits=1,test_size=val_count,random_state=seed).split(y[trval],groups=groups[trval]))
+            train,validation=trval[tr],trval[val]
+            if all(set(y[idx])==expected for idx in (train,validation,test)):
+                assert not(set(groups[train])&set(groups[test]))
+                assert not(set(groups[train])&set(groups[validation]))
+                assert not(set(groups[validation])&set(groups[test]))
+                return train,validation,test,groups
+    raise ValueError('Cannot cover every selected label in 3 disjoint group sets. Collect missing labels in additional real groups; do not random-split frames.')
+
 
 def arrays(records,indices):
     x,y,weights=[],[],[]
