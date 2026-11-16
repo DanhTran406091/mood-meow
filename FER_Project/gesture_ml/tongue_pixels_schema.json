@@ -1,0 +1,10 @@
+{
+  "version": "mouth-rgb-pixels-v2",
+  "dimension": 4608,
+  "labels": [
+    "the_luoi",
+    "mo_mieng"
+  ],
+  "description": "48x32 RGB pixels in row-major order, channels divided by 255; mouth image can be reconstructed from these values.",
+  "schema_id": "5ce0ea6f850b3057c8c6d5162d77754c00e6857d5ff9124bb241c16e0d744ced"
+}

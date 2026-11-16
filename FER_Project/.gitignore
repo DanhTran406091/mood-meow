@@ -1,0 +1,10 @@
+
+gesture_data/
+
+model/gesture_classifier_v*/
+
+model/tongue_pilot_v*/
+
+model/tongue_pixels_v*/
+
+model/meme_classifier_runs/

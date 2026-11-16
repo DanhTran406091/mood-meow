@@ -1,0 +1,30 @@
+# Local environments and build output
+**/.venv/
+**/venv/
+**/node_modules/
+**/dist/
+**/__pycache__/
+*.py[cod]
+*.log
+.DS_Store
+Thumbs.db
+**/.vscode/
+**/.idea/
+
+# Private configuration and captured mouth images/features
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+FER_Project/gesture_data/
+data_exports/
+*.zip
+*.part
+
+# Generated or historical models; keep the model needed by the default app
+FER_Project/model/*
+!FER_Project/model/emotion_model_96_both.keras
+!FER_Project/model/emotion_model_96_both.json
+!FER_Project/model/face_detection_yunet_2023mar.onnx
+meme_samples_35_backup*/

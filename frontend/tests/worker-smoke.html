@@ -1,0 +1,9 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><title>Gesture worker smoke test</title><body><h1>Kiểm tra bộ theo dõi cục bộ</h1><pre id="out">Đang tải hai mô hình…</pre><script type="module">
+const out=document.getElementById('out');const w=new Worker(new URL('../src/services/gesture.worker.ts',import.meta.url),{type:'module'});
+const timeout=setTimeout(()=>{out.textContent='FAIL: timeout';w.terminate()},60000);
+w.onerror=e=>{clearTimeout(timeout);out.textContent='FAIL: '+e.message;w.terminate()};
+w.onmessage=async e=>{if(e.data.type==='error'){clearTimeout(timeout);out.textContent='FAIL: '+e.data.message;w.terminate()}
+if(e.data.type==='ready'){out.textContent='Models ready. Testing blank image…';const canvas=new OffscreenCanvas(640,480);const c=canvas.getContext('2d');c.fillStyle='black';c.fillRect(0,0,640,480);const bitmap=await createImageBitmap(canvas);w.postMessage({type:'frame',bitmap,timestamp:performance.now()},[bitmap])}
+if(e.data.type==='result'){clearTimeout(timeout);out.textContent=(e.data.signals.face===false&&e.data.ids.length===0?'PASS':'FAIL')+' — '+JSON.stringify(e.data);w.terminate()}};
+w.postMessage({type:'init',origin:location.origin});
+</script></body></html>

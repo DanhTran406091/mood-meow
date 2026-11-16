@@ -1,0 +1,51 @@
+{
+  "angry": [
+    "cat (595).jpg",
+    "cat (1084).jpg",
+    "cat (1471).jpg",
+    "cat (1271).jpg",
+    "cat (896).jpg"
+  ],
+  "fear": [
+    "cat (1456).jpg",
+    "cat (1141).jpg",
+    "fear_03_selected.jpg",
+    "cat (878).jpg",
+    "fear_05_selected.jpg"
+  ],
+  "surprise": [
+    "cat (168).jpg",
+    "cat (442).jpg",
+    "cat (500).jpg",
+    "cat (1057).jpg",
+    "cat (1362).jpg"
+  ],
+  "happy": [
+    "cat (144).png",
+    "cat (317).jpg",
+    "cat (134).jpg",
+    "cat (655).jpg",
+    "cat (103).jpg"
+  ],
+  "disgust": [
+    "cat (668).jpg",
+    "cat (1076).jpg",
+    "cat (1284).jpg",
+    "cat (2059).jpg",
+    "cat (558).jpg"
+  ],
+  "neutral": [
+    "cat (177).jpg",
+    "cat (319).jpg",
+    "cat (91).jpg",
+    "cat (644).jpg",
+    "cat (1525).jpg"
+  ],
+  "sad": [
+    "cat (495).jpg",
+    "cat (553).jpg",
+    "cat (674).jpg",
+    "cat (1300).jpg",
+    "cat (494).jpg"
+  ]
+}

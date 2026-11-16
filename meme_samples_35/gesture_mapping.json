@@ -1,0 +1,618 @@
+{
+  "version": 1,
+  "purpose": "Proposed human gestures linked to user-selected cat memes",
+  "executable_rules": false,
+  "entries": [
+    {
+      "id": "angry_01",
+      "emotion_tag": "angry",
+      "image": "angry/cat (595).jpg",
+      "gesture_description": "Hai nắm tay ngang hai bên vai, miệng khép, nhìn thẳng",
+      "required_signals": [
+        "pose",
+        "hands"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Tư thế lấy cảm hứng từ ảnh; không yêu cầu vật cầm trên tay.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "angry_02",
+      "emotion_tag": "angry",
+      "image": "angry/cat (1084).jpg",
+      "gesture_description": "Hai nắm tay sát nhau trước ngực, miệng khép",
+      "required_signals": [
+        "hands",
+        "pose"
+      ],
+      "pilot_candidate": true,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Cần phân biệt hai nắm tay với hai bàn tay mở.",
+      "recognition": {
+        "engine": "landmark_rules",
+        "label": "angry_02"
+      },
+      "available": true,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "angry_03",
+      "emotion_tag": "angry",
+      "image": "angry/cat (1471).jpg",
+      "gesture_description": "Hai nắm tay ngang hai bên vai, mở miệng lớn, không thè lưỡi",
+      "required_signals": [
+        "face",
+        "hands",
+        "pose"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Có thể lẫn với ngạc nhiên; chưa dùng để kích hoạt riêng.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "angry_04",
+      "emotion_tag": "angry",
+      "image": "angry/cat (1271).jpg",
+      "gesture_description": "Không đưa tay vào hình, nhíu mày rõ, mím môi, đầu thẳng",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Khác biệt nhỏ giữa các cá nhân; cần mẫu người thực.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "angry_05",
+      "emotion_tag": "angry",
+      "image": "angry/cat (896).jpg",
+      "gesture_description": "Một nắm tay sát một bên má, tay kia ngoài hình, miệng khép",
+      "required_signals": [
+        "hands",
+        "face"
+      ],
+      "pilot_candidate": true,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Dựa vào vị trí tay và mặt, không chỉ nhãn angry.",
+      "recognition": {
+        "engine": "landmark_rules",
+        "label": "angry_05"
+      },
+      "available": true,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "fear_01",
+      "emotion_tag": "fear",
+      "image": "fear/cat (1456).jpg",
+      "gesture_description": "Không đưa tay vào hình, mở miệng lớn, hai mắt chủ động mở to, không thè lưỡi",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Gần với surprise; không suy ra sợ hãi thực sự.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "fear_02",
+      "emotion_tag": "fear",
+      "image": "fear/cat (1141).jpg",
+      "gesture_description": "Hai bàn tay mở đặt trước ngực, mở miệng lớn, không thè lưỡi",
+      "required_signals": [
+        "face",
+        "hands",
+        "pose"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Cần phân biệt với tư thế thủ hai nắm tay.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "fear_03",
+      "emotion_tag": "fear",
+      "image": "fear/fear_03_selected.jpg",
+      "gesture_description": "Nghiêng đầu, hai bàn tay mở sát nhau ở cùng một bên má, miệng khép",
+      "required_signals": [
+        "face",
+        "hands",
+        "pose"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Mô phỏng tư thế núp; không yêu cầu có cột hay vật che.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "fear_04",
+      "emotion_tag": "fear",
+      "image": "fear/cat (878).jpg",
+      "gesture_description": "Hai bàn tay mở ở thấp dưới cằm, các ngón hướng xuống, miệng khép",
+      "required_signals": [
+        "pose",
+        "hands"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Camera cần thấy phần thân và hai tay.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "fear_05",
+      "emotion_tag": "fear",
+      "image": "fear/fear_05_selected.jpg",
+      "gesture_description": "Hai nắm tay chạm nhau ngay dưới cằm, mở miệng, không thè lưỡi",
+      "required_signals": [
+        "face",
+        "hands",
+        "pose"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Dễ trùng fear_02; chưa dùng làm mẫu độc lập.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "surprise_01",
+      "emotion_tag": "surprise",
+      "image": "surprise/cat (168).jpg",
+      "gesture_description": "Không đưa tay vào hình, chủ động mở to hai mắt, miệng khép",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Cần đo thay đổi so với mức mở mắt tự nhiên.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "surprise_02",
+      "emotion_tag": "surprise",
+      "image": "surprise/cat (442).jpg",
+      "gesture_description": "Một bàn tay mở cạnh má, miệng chữ O, không thè lưỡi",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Không dùng khoảng cách đơn thuần để kết luận cảm xúc.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "surprise_03",
+      "emotion_tag": "surprise",
+      "image": "surprise/cat (500).jpg",
+      "gesture_description": "Không đưa tay vào hình, chủ động mở to hai mắt, chu môi khép",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Gần surprise_01 và surprise_04; cần đối chứng.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "surprise_04",
+      "emotion_tag": "surprise",
+      "image": "surprise/cat (1057).jpg",
+      "gesture_description": "Không đưa tay vào hình, mở miệng chữ O, mắt mở tự nhiên, không thè lưỡi",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": true,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Không yêu cầu trợn mắt. Có thể lấy mốc mắt tự nhiên trên giao diện; vẫn có thể nhầm với ngáp và cần kiểm thử thêm.",
+      "recognition": {
+        "engine": "landmark_rules",
+        "label": "surprise_04"
+      },
+      "available": true,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "surprise_05",
+      "emotion_tag": "surprise",
+      "image": "surprise/cat (1362).jpg",
+      "gesture_description": "Hai bàn tay mở cạnh hai má, miệng chữ O, mắt mở, không thè lưỡi",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Ảnh bị biến dạng phối cảnh; không tái hiện kích thước mắt của mèo.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "happy_01",
+      "emotion_tag": "happy",
+      "image": "happy/cat (144).png",
+      "gesture_description": "Không đưa tay vào hình, cười khép miệng rõ, đầu thẳng",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Không ép mọi khuôn mặt phải có cùng độ cong môi.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "happy_02",
+      "emotion_tag": "happy",
+      "image": "happy/cat (317).jpg",
+      "gesture_description": "Thè lưỡi, một bàn tay mở giơ cao hơn đỉnh đầu, tay kia ngoài hình",
+      "required_signals": [
+        "face_custom"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Cần kiểm chứng bộ phát hiện lưỡi, chưa có sẵn trong hệ thống.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "happy_03",
+      "emotion_tag": "happy",
+      "image": "happy/cat (134).jpg",
+      "gesture_description": "Một bàn tay mở giơ cao hơn đỉnh đầu, cười hoặc mở miệng, không thè lưỡi",
+      "required_signals": [
+        "hands",
+        "pose",
+        "face"
+      ],
+      "pilot_candidate": true,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Động tác chính là giơ một tay; biểu cảm là tín hiệu bổ sung.",
+      "recognition": {
+        "engine": "landmark_rules",
+        "label": "happy_03"
+      },
+      "available": true,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "happy_04",
+      "emotion_tag": "happy",
+      "image": "happy/cat (655).jpg",
+      "gesture_description": "Hai bàn tay mở cạnh hai má, nhắm cả hai mắt, miệng khép",
+      "required_signals": [
+        "hands",
+        "face"
+      ],
+      "pilot_candidate": true,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Tách khỏi nắm tay trước ngực bằng hình dạng và vị trí tay.",
+      "recognition": {
+        "engine": "landmark_rules",
+        "label": "happy_04"
+      },
+      "available": true,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "happy_05",
+      "emotion_tag": "happy",
+      "image": "happy/cat (103).jpg",
+      "gesture_description": "Một bàn tay mở chạm trán, tay kia ngoài hình, cười khép miệng",
+      "required_signals": [
+        "hands",
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Không yêu cầu đội mũ hay dùng đồ ăn làm đạo cụ.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "disgust_01",
+      "emotion_tag": "disgust",
+      "image": "disgust/cat (668).jpg",
+      "gesture_description": "Không đưa tay vào hình, chu môi khép, chủ động nhắm cả hai mắt",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Khó phân biệt bằng quy tắc; cần dữ liệu người thực.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "disgust_02",
+      "emotion_tag": "disgust",
+      "image": "disgust/cat (1076).jpg",
+      "gesture_description": "Không đưa tay vào hình, thè lưỡi, chủ động nhắm hoặc nheo cả hai mắt",
+      "required_signals": [
+        "face_custom"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Có thể trùng happy_02; cần kiểm chứng trước.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "disgust_03",
+      "emotion_tag": "disgust",
+      "image": "disgust/cat (1284).jpg",
+      "gesture_description": "Không đưa tay vào hình, chủ động nhắm cả hai mắt, mở miệng, không thè lưỡi",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Có thể lẫn angry; không tự động kích hoạt nếu phân vân.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "disgust_04",
+      "emotion_tag": "disgust",
+      "image": "disgust/cat (2059).jpg",
+      "gesture_description": "Không đưa tay vào hình, thè lưỡi, mắt mở tự nhiên",
+      "required_signals": [
+        "face_custom"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Giữ khoảng một giây. Bộ phân loại do nhóm huấn luyện; đang thử nghiệm trên một người.",
+      "recognition": {
+        "engine": "mouth_pixels_v2",
+        "label": "the_luoi",
+        "min_score": 0.7,
+        "min_gap": 0.25,
+        "hold_ms": 900
+      },
+      "available": true,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "disgust_05",
+      "emotion_tag": "disgust",
+      "image": "disgust/cat (558).jpg",
+      "gesture_description": "Thè lưỡi, một bàn tay mở ở cạnh miệng nhưng không che miệng",
+      "required_signals": [
+        "face_custom",
+        "hands"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Bàn tay có thể che miệng; cần thử độ nhìn thấy.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "neutral_01",
+      "emotion_tag": "neutral",
+      "image": "neutral/cat (177).jpg",
+      "gesture_description": "Không đưa tay vào hình, miệng khép thả lỏng, mắt mở, đầu thẳng",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Vật trên đầu không phải điều kiện nhận diện.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "neutral_02",
+      "emotion_tag": "neutral",
+      "image": "neutral/cat (319).jpg",
+      "gesture_description": "Một ngón trỏ chỉ lên cạnh má, các ngón khác gập, miệng khép thả lỏng",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Tư thế gần neutral_01; chưa tách riêng.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "neutral_03",
+      "emotion_tag": "neutral",
+      "image": "neutral/cat (91).jpg",
+      "gesture_description": "Một bàn tay mở ở trước ngực, đầu nghiêng, miệng khép thả lỏng",
+      "required_signals": [
+        "face",
+        "hands",
+        "pose"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Tư thế lấy cảm hứng từ ảnh; chưa có tín hiệu phân biệt mạnh.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "neutral_04",
+      "emotion_tag": "neutral",
+      "image": "neutral/cat (644).jpg",
+      "gesture_description": "Không đưa tay vào hình, miệng khép thả lỏng, chủ động nhắm cả hai mắt",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Gần neutral_01; trang phục không phải tín hiệu nhận diện.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "neutral_05",
+      "emotion_tag": "neutral",
+      "image": "neutral/cat (1525).jpg",
+      "gesture_description": "Không đưa tay vào hình, miệng khép thả lỏng, đầu nghiêng rõ sang một bên",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Không dùng khoảng cách hay góc chụp thay thế biểu cảm.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "sad_01",
+      "emotion_tag": "sad",
+      "image": "sad/cat (495).jpg",
+      "gesture_description": "Một bàn tay mở chạm thái dương, đầu nghiêng, miệng khép không cười",
+      "required_signals": [
+        "hands",
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Cần tách khỏi happy_05 bằng vị trí tay và độ nghiêng đầu.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "sad_02",
+      "emotion_tag": "sad",
+      "image": "sad/cat (553).jpg",
+      "gesture_description": "Hai bàn tay mở sát hai bên miệng nhưng không che miệng, đầu thẳng, miệng khép",
+      "required_signals": [
+        "hands",
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Không yêu cầu cầm đồ ăn; hai tay không che toàn bộ mặt.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "sad_03",
+      "emotion_tag": "sad",
+      "image": "sad/cat (674).jpg",
+      "gesture_description": "Không đưa tay vào hình, hạ hai khóe môi rõ, mắt mở, đầu thẳng",
+      "required_signals": [
+        "face"
+      ],
+      "pilot_candidate": false,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Dễ mất chi tiết khi ngửa quá nhiều; chưa dùng làm mẫu đầu.",
+      "recognition": null,
+      "available": false,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "sad_04",
+      "emotion_tag": "sad",
+      "image": "sad/cat (1300).jpg",
+      "gesture_description": "Một bàn tay mở áp má, đầu nghiêng tựa vào tay, miệng khép",
+      "required_signals": [
+        "hands",
+        "face"
+      ],
+      "pilot_candidate": true,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Không yêu cầu có nước mắt; vị trí tay khác thái dương.",
+      "recognition": {
+        "engine": "landmark_rules",
+        "label": "sad_04"
+      },
+      "available": true,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    },
+    {
+      "id": "sad_05",
+      "emotion_tag": "sad",
+      "image": "sad/cat (494).jpg",
+      "gesture_description": "Chắp hai bàn tay trước ngực, các ngón hướng lên, đầu thẳng, miệng khép",
+      "required_signals": [
+        "hands",
+        "pose"
+      ],
+      "pilot_candidate": true,
+      "enabled": false,
+      "status": "needs_human_reference_and_validation",
+      "notes": "Động tác là chắp tay, không phải bằng chứng người dùng đang buồn.",
+      "recognition": {
+        "engine": "landmark_rules",
+        "label": "sad_05"
+      },
+      "available": true,
+      "collection_notes": "Động tác quy ước để phân biệt meme, không phải nhãn cảm xúc thật. Để toàn bộ mặt và tay cần dùng trong hình; không che miệng. Giữ một động tác suốt 4 giây. Không dùng đồ vật."
+    }
+  ],
+  "collection_revision": "distinct-static-gestures-2026-11-16"
+}

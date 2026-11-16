@@ -1,0 +1,10 @@
+{
+  "version": "mouth-color-grid-v1",
+  "dimension": 64,
+  "labels": [
+    "the_luoi",
+    "mo_mieng"
+  ],
+  "description": "4x4 mouth grid; mean normalized RGB and red-pixel proportion per cell. Experimental, not direct tongue detection.",
+  "schema_id": "92db102fff421a81eede8b3298771394e4a47463436cd4aa3d49cba798311490"
+}

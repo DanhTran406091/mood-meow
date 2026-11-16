@@ -1,0 +1,9 @@
+tensorflow>=2.16,<2.20
+opencv-python>=4.10,<5
+numpy
+scikit-learn
+matplotlib
+
+fastapi
+
+uvicorn[standard]
