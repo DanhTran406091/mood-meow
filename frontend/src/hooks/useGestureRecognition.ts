@@ -1,5 +1,5 @@
 import {MouthDecision} from '../services/mouthDecision'
-import {mergeGestureIds} from '../services/gestureDecision'
+import {trainedGestureAllowed,mergeGestureIds} from '../services/gestureDecision'
 import {GestureHold} from '../services/gestureRules'
 import memeSchema from '../config/memeFeatures.json'
 import mouthSchema from '../config/tongueFeatures.json'
@@ -7,7 +7,7 @@ import {useCallback,useEffect,useRef,useState} from 'react'
 import type {Meme} from '../types/recognition'
 import type {Signals, Point, EyeBaseline} from '../services/gestureRules'
 export type GestureTemplate={recognition?:{engine:string;label:string;min_score?:number;min_gap?:number;hold_ms?:number}|null;id:string;description:string;notes:string;meme:Meme}
-type Tracking={combinedFeatures:number[]|null;mouthPreview:Uint8ClampedArray|null;tongueFeatures:number[]|null;features:number[]|null;timestamp:number;schemaId:string;calibration:'idle'|'collecting'|'ready'|'failed';eyeBaseline:EyeBaseline|null;id:string|null;stable:boolean;progress:number;ids:string[];signals:Signals;landmarks:{face:Point[];hands:Point[][];width:number;height:number}}
+type Tracking={diagnostic?:string;combinedFeatures:number[]|null;mouthPreview:Uint8ClampedArray|null;tongueFeatures:number[]|null;features:number[]|null;timestamp:number;schemaId:string;calibration:'idle'|'collecting'|'ready'|'failed';eyeBaseline:EyeBaseline|null;id:string|null;stable:boolean;progress:number;ids:string[];signals:Signals;landmarks:{face:Point[];hands:Point[][];width:number;height:number}}
 export function useGestureRecognition(){
   const videoRef=useRef<HTMLVideoElement>(null)
   const stream=useRef<MediaStream|null>(null)
@@ -122,12 +122,19 @@ export function useGestureRecognition(){
         if(useTrained){
           const fallbackIds=[...data.ids]
           let prediction:string|null=null
+          data.diagnostic=data.combinedFeatures?'Đang kiểm tra động tác…':'Chưa lấy đủ điểm mặt/tay và ảnh miệng.'
           if(data.combinedFeatures&&data.calibration!=='collecting'){
             try{
               const response=await fetch('/api/meme-training/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({schema_id:memeSchema.schema_id,frame:{t_ms:0,values:data.combinedFeatures}}),signal:AbortSignal.timeout(3000)})
               if(!response.ok)throw new Error()
               const result=await response.json();if(!current())return
-              prediction=result.id??null;setError('')
+              prediction=result.id??null
+              const raw=(result.predictions??[]) as {label:string;confidence:number;gap:number}[]
+              const details=raw.map(item=>item.label+': '+Math.round(item.confidence*100)+'% (cách nhãn sau '+Math.round(item.gap*100)+' điểm)').join(' · ')
+              data.diagnostic=result.ambiguous?'Nhiều bộ nhận diện cùng khớp. '+details:prediction
+                ?trainedGestureAllowed(prediction,data)?'Model chọn '+prediction+'. '+details:'Model chọn '+prediction+' nhưng chưa đủ điều kiện tay/miệng. '+details
+                :raw.some(item=>item.label==='none')?'Model đang nghiêng về không khớp động tác. '+details:'Điểm model chưa đủ rõ để chọn ảnh. '+details
+              setError('')
             }catch{if(!current())return;setError('Chưa gọi được mô hình mới; các động tác dự phòng vẫn hoạt động.')}
           }
           const ids=data.calibration==='collecting'?[]:mergeGestureIds(fallbackIds,prediction,trainedLabels,data)
@@ -151,7 +158,7 @@ export function useGestureRecognition(){
             }else{
               mouthSince=null;mouthFrames=0
               // Uncertain tongue predictions must not fall through to surprise.
-              if(decision!=='open'){data.id=null;data.ids=[];data.stable=false;data.progress=0}
+              if(decision!=='open'){data.id=null;data.ids=[];data.stable=false;data.progress=0;data.diagnostic=(data.diagnostic??'')+' · Bộ miệng chưa phân biệt rõ thè lưỡi / mở miệng.'}
             }
           }catch{
             if(!current())return
