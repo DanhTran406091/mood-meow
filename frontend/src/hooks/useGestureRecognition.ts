@@ -1,3 +1,4 @@
+import {MouthDecision} from '../services/mouthDecision'
 import {mergeGestureIds} from '../services/gestureDecision'
 import {GestureHold} from '../services/gestureRules'
 import memeSchema from '../config/memeFeatures.json'
@@ -87,6 +88,7 @@ export function useGestureRecognition(){
     const w=new Worker(new URL('../services/gesture.worker.ts',import.meta.url),{type:'module'})
     worker.current=w
     let mouthSince:number|null=null,mouthFrames=0
+    const mouthDecision=new MouthDecision()
     let mouthRequestFailed=false
     const combinedHold=new GestureHold()
     const current=()=>worker.current===w&&generation.current===token
@@ -132,15 +134,15 @@ export function useGestureRecognition(){
           Object.assign(data,{ids},combinedHold.update(ids,data.timestamp))
         }
         const mouthTemplates=runTemplates.filter(t=>t.recognition?.engine==='mouth_pixels_v2')
-        if(mouthTemplates.length&&data.signals.face&&data.signals.hands===0&&data.signals.jaw>.18&&data.tongueFeatures){
+        if(mouthTemplates.length&&data.calibration!=='collecting'&&data.signals.face&&data.signals.hands===0&&data.tongueFeatures&&data.ids.every((id:string)=>id==='surprise_04')){
           try{
             const r=await fetch('/api/tongue-pixels/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({values:data.tongueFeatures,schema_id:mouthSchema.schema_id}),signal:AbortSignal.timeout(3000)})
             if(!r.ok)throw new Error()
             const result=await r.json()
             if(!current())return
             if(mouthRequestFailed){setError('');mouthRequestFailed=false}
-            const candidate=mouthTemplates.find(t=>{const config=t.recognition!;const score=result.scores?.[config.label]??0;const other=Math.max(0,...Object.entries(result.scores as Record<string,number>).filter(([label])=>label!==config.label).map(([,value])=>value));return score>=(config.min_score??.7)&&score-other>=(config.min_gap??.25)})
-            const score=Math.max(0,...mouthTemplates.map(t=>result.scores?.[t.recognition!.label]??0))
+            const decision=mouthDecision.update(result.scores?.the_luoi??NaN,result.scores?.mo_mieng??NaN)
+            const candidate=decision==='tongue'?mouthTemplates.find(t=>t.recognition?.label==='the_luoi'):undefined
             if(candidate){
               const holdMs=candidate.recognition?.hold_ms??900
               mouthSince??=data.timestamp;mouthFrames++
@@ -149,15 +151,15 @@ export function useGestureRecognition(){
             }else{
               mouthSince=null;mouthFrames=0
               // Uncertain tongue predictions must not fall through to surprise.
-              if(score>.40){data.id=null;data.ids=[];data.stable=false;data.progress=0}
+              if(decision!=='open'){data.id=null;data.ids=[];data.stable=false;data.progress=0}
             }
           }catch{
             if(!current())return
-            mouthSince=null;mouthFrames=0;mouthRequestFailed=true
+            mouthSince=null;mouthFrames=0;mouthDecision.reset();mouthRequestFailed=true
             setError('Chưa gọi được bộ nhận diện thè lưỡi. Kiểm tra backend; các động tác tay vẫn dùng được.')
             data.id=null;data.ids=[];data.stable=false;data.progress=0
           }
-        }else{mouthSince=null;mouthFrames=0}
+        }else{mouthSince=null;mouthFrames=0;mouthDecision.reset()}
         if(!current())return
         setTracking(data)
         timer.current=setTimeout(()=>void capture(),100)

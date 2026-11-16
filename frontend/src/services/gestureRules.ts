@@ -47,13 +47,13 @@ export function matchGestures(input: Observation): Match {
   const ids:string[]=[]
   if(hands.length===2 && hands.every(h=>h.fist&&belowFace(h)) && distance(hands[0].center,hands[1].center)>fw*.6) ids.push('angry_02')
   if(hands.length===1 && hands[0].fist && nearCheek(hands[0])) ids.push('angry_05')
+  // Surprise does not require wide eyes or an open-eye ratio threshold.
   const eyes=measureEyes(input)
-  // No forced eye widening: compare with this person's relaxed open-eye baseline.
-  const eyesOpen=input.eyeBaseline&&eyes
-    ? eyes.left>=input.eyeBaseline.left*.65 && eyes.right>=input.eyeBaseline.right*.65
-    : !signals.eyesClosed
+  const eyesOpen=input.eyeBaseline&&eyes?eyes.left>=input.eyeBaseline.left*.35&&eyes.right>=input.eyeBaseline.right*.35:!signals.eyesClosed
+  const lipWidth=distance(face[61],face[291])
+  const lipOpening=lipWidth>0?distance(face[13],face[14])/lipWidth:0
   const smile=((input.blend.mouthSmileLeft??0)+(input.blend.mouthSmileRight??0))/2
-  if(hands.length===0 && signals.jaw>.25 && eyesOpen && smile<.45) ids.push('surprise_04')
+  if(hands.length===0 && (signals.jaw>.15||(signals.jaw>.06&&lipOpening>.12)) && eyesOpen && smile<.45) ids.push('surprise_04')
   if(hands.length===1 && hands[0].open && hands[0].center.y<top.y+fh*.2 && (signals.jaw>.2 || ((input.blend.mouthSmileLeft??0)+(input.blend.mouthSmileRight??0))/2>.35)) ids.push('happy_03')
   if(hands.length===2 && hands.every(h=>h.open&&nearCheek(h)) && (hands[0].center.x-nose.x)*(hands[1].center.x-nose.x)<0 && signals.eyesClosed) ids.push('happy_04')
   if(hands.length===1 && hands[0].open && nearCheek(hands[0]) && Math.abs(roll)>.14 && !signals.eyesClosed) ids.push('sad_04')
