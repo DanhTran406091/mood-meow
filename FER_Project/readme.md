@@ -1,3 +1,5 @@
+> **Chạy bản web hiện tại:** xem [README đầy đủ ở gốc repo](../README.md), gồm cài công cụ, requirements, frontend, hai terminal, hai chế độ, thu dữ liệu và train/test. Phần bên dưới là tài liệu backend/demo trước đây; đường dẫn máy tác giả và một số model so sánh có thể không có trên máy clone mới.
+
 # Hướng dẫn chạy hệ thống nhận diện cảm xúc
 
 ## Chế độ kiểm tra webcam và kết quả chưa chắc chắn
